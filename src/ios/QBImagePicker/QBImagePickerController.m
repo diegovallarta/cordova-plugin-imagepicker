@@ -33,7 +33,11 @@
                                          @(PHAssetCollectionSubtypeAlbumMyPhotoStream),
                                          @(PHAssetCollectionSubtypeSmartAlbumPanoramas),
                                          @(PHAssetCollectionSubtypeSmartAlbumVideos),
-                                         @(PHAssetCollectionSubtypeSmartAlbumBursts)
+                                         @(PHAssetCollectionSubtypeSmartAlbumBursts),
+                                         @(PHAssetCollectionSubtypeAlbumSyncedAlbum),
+                                         @(PHAssetCollectionSubtypeAlbumImported),
+                                         @(PHAssetCollectionSubtypeAlbumCloudShared),
+                                         @(PHAssetCollectionSubtypeAlbumSyncedEvent)
                                          ];
         self.minimumNumberOfSelection = 1;
         self.numberOfColumnsInPortrait = 4;

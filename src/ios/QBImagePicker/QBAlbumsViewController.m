@@ -46,13 +46,7 @@ static CGSize CGSizeScale(CGSize size, CGFloat scale) {
     // Fetch user albums and smart albums
     PHFetchResult *smartAlbums = [PHAssetCollection fetchAssetCollectionsWithType:PHAssetCollectionTypeSmartAlbum subtype:PHAssetCollectionSubtypeAny options:nil];
     
-    PHFetchOptions *options = [[PHFetchOptions alloc] init];
-    options.includeHiddenAssets = YES;
-    if([PHFetchOptions instancesRespondToSelector:@selector(includeAssetSourceTypes)]){
-        [options setIncludeAssetSourceTypes:PHAssetSourceTypeiTunesSynced];
-    }
-    
-    PHFetchResult *userAlbums = [PHAssetCollection fetchAssetCollectionsWithType:PHAssetCollectionTypeAlbum subtype:PHAssetCollectionSubtypeAny options:options];
+    PHFetchResult *userAlbums = [PHAssetCollection fetchAssetCollectionsWithType:PHAssetCollectionTypeAlbum subtype:PHAssetCollectionSubtypeAny options:nil];
     
     self.fetchResults = @[smartAlbums, userAlbums];
     
@@ -168,11 +162,13 @@ static CGSize CGSizeScale(CGSize size, CGFloat scale) {
     
     for (PHFetchResult *fetchResult in self.fetchResults) {
         [fetchResult enumerateObjectsUsingBlock:^(PHAssetCollection *assetCollection, NSUInteger index, BOOL *stop) {
+            
             if (assetCollection.assetCollectionSubtype == PHAssetCollectionSubtypeAlbumRegular) {
                 [userAlbums addObject:assetCollection];
             } else if ([assetCollectionSubtypes containsObject:@(assetCollection.assetCollectionSubtype)]) {
                 smartAlbums[@(assetCollection.assetCollectionSubtype)] = assetCollection;
             }
+            
         }];
     }
     
@@ -189,6 +185,7 @@ static CGSize CGSizeScale(CGSize size, CGFloat scale) {
     [userAlbums enumerateObjectsUsingBlock:^(PHAssetCollection *assetCollection, NSUInteger index, BOOL *stop) {
         [assetCollections addObject:assetCollection];
     }];
+    
     
     self.assetCollections = assetCollections;
 }
