@@ -45,7 +45,15 @@ static CGSize CGSizeScale(CGSize size, CGFloat scale) {
     
     // Fetch user albums and smart albums
     PHFetchResult *smartAlbums = [PHAssetCollection fetchAssetCollectionsWithType:PHAssetCollectionTypeSmartAlbum subtype:PHAssetCollectionSubtypeAny options:nil];
-    PHFetchResult *userAlbums = [PHAssetCollection fetchAssetCollectionsWithType:PHAssetCollectionTypeAlbum subtype:PHAssetCollectionSubtypeAny options:nil];
+    
+    PHFetchOptions *options = [[PHFetchOptions alloc] init];
+    options.includeHiddenAssets = YES;
+    if([PHFetchOptions instancesRespondToSelector:@selector(includeAssetSourceTypes)]){
+        [options setIncludeAssetSourceTypes:PHAssetSourceTypeiTunesSynced];
+    }
+    
+    PHFetchResult *userAlbums = [PHAssetCollection fetchAssetCollectionsWithType:PHAssetCollectionTypeAlbum subtype:PHAssetCollectionSubtypeAny options:options];
+    
     self.fetchResults = @[smartAlbums, userAlbums];
     
     [self updateAssetCollections];
