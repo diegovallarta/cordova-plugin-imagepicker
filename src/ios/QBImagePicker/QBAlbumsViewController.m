@@ -163,7 +163,7 @@ static CGSize CGSizeScale(CGSize size, CGFloat scale) {
     for (PHFetchResult *fetchResult in self.fetchResults) {
         [fetchResult enumerateObjectsUsingBlock:^(PHAssetCollection *assetCollection, NSUInteger index, BOOL *stop) {
             
-            if (assetCollection.assetCollectionSubtype == PHAssetCollectionSubtypeAlbumRegular) {
+            if (assetCollection.assetCollectionSubtype >= PHAssetCollectionSubtypeAlbumRegular && assetCollection.assetCollectionSubtype <100) {
                 [userAlbums addObject:assetCollection];
             } else if ([assetCollectionSubtypes containsObject:@(assetCollection.assetCollectionSubtype)]) {
                 smartAlbums[@(assetCollection.assetCollectionSubtype)] = assetCollection;

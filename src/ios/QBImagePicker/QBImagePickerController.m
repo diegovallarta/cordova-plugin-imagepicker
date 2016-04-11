@@ -34,10 +34,9 @@
                                          @(PHAssetCollectionSubtypeSmartAlbumPanoramas),
                                          @(PHAssetCollectionSubtypeSmartAlbumVideos),
                                          @(PHAssetCollectionSubtypeSmartAlbumBursts),
-                                         @(PHAssetCollectionSubtypeAlbumSyncedAlbum),
-                                         @(PHAssetCollectionSubtypeAlbumImported),
                                          @(PHAssetCollectionSubtypeAlbumCloudShared),
-                                         @(PHAssetCollectionSubtypeAlbumSyncedEvent)
+                                         @(PHAssetCollectionSubtypeSmartAlbumFavorites),
+                                         @(PHAssetCollectionSubtypeSmartAlbumRecentlyAdded)
                                          ];
         self.minimumNumberOfSelection = 1;
         self.numberOfColumnsInPortrait = 4;
