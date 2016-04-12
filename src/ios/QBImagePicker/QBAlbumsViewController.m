@@ -302,46 +302,66 @@ static CGSize CGSizeScale(CGSize size, CGFloat scale) {
     
     if (fetchResult.count >= 3) {
         cell.imageView3.hidden = NO;
-        
-        [imageManager requestImageForAsset:fetchResult[fetchResult.count - 3]
-                                targetSize:CGSizeScale(cell.imageView3.frame.size, self.traitCollection.displayScale)
-                               contentMode:PHImageContentModeAspectFill
-                                   options:nil
-                             resultHandler:^(UIImage *result, NSDictionary *info) {
-                                 if (cell.tag == indexPath.row) {
-                                     cell.imageView3.image = result;
-                                 }
-                             }];
+        @autoreleasepool {
+            [imageManager requestImageForAsset:fetchResult[fetchResult.count - 3]
+                                    targetSize:CGSizeScale(cell.imageView3.frame.size, self.traitCollection.displayScale)
+                                   contentMode:PHImageContentModeAspectFill
+                                       options:nil
+                                 resultHandler:^(UIImage *result, NSDictionary *info) {
+                                     dispatch_async(dispatch_get_main_queue(), ^{
+                                         //you can add autorelease pool here as well (a2)
+                                         @autoreleasepool {
+                                             if (cell.tag == indexPath.row) {
+                                                 cell.imageView3.image = result;
+                                             }
+                                         }
+                                     });
+                                 }];
+        }
     } else {
         cell.imageView3.hidden = YES;
     }
     
     if (fetchResult.count >= 2) {
         cell.imageView2.hidden = NO;
-        
-        [imageManager requestImageForAsset:fetchResult[fetchResult.count - 2]
-                                targetSize:CGSizeScale(cell.imageView2.frame.size, self.traitCollection.displayScale)
-                               contentMode:PHImageContentModeAspectFill
-                                   options:nil
-                             resultHandler:^(UIImage *result, NSDictionary *info) {
-                                 if (cell.tag == indexPath.row) {
-                                     cell.imageView2.image = result;
-                                 }
-                             }];
+        @autoreleasepool {
+            [imageManager requestImageForAsset:fetchResult[fetchResult.count - 2]
+                                    targetSize:CGSizeScale(cell.imageView2.frame.size, self.traitCollection.displayScale)
+                                   contentMode:PHImageContentModeAspectFill
+                                       options:nil
+                                 resultHandler:^(UIImage *result, NSDictionary *info) {
+                                     dispatch_async(dispatch_get_main_queue(), ^{
+                                         //you can add autorelease pool here as well (a2)
+                                         @autoreleasepool {
+                                             if (cell.tag == indexPath.row) {
+                                                 cell.imageView2.image = result;
+                                             }
+                                         }
+                                     });
+                                 }];
+        }
     } else {
         cell.imageView2.hidden = YES;
     }
     
     if (fetchResult.count >= 1) {
-        [imageManager requestImageForAsset:fetchResult[fetchResult.count - 1]
-                                targetSize:CGSizeScale(cell.imageView1.frame.size, self.traitCollection.displayScale)
-                               contentMode:PHImageContentModeAspectFill
-                                   options:nil
-                             resultHandler:^(UIImage *result, NSDictionary *info) {
-                                 if (cell.tag == indexPath.row) {
-                                     cell.imageView1.image = result;
-                                 }
-                             }];
+        @autoreleasepool {
+            [imageManager requestImageForAsset:fetchResult[fetchResult.count - 1]
+                                    targetSize:CGSizeScale(cell.imageView1.frame.size, self.traitCollection.displayScale)
+                                   contentMode:PHImageContentModeAspectFill
+                                       options:nil
+                                 resultHandler:^(UIImage *result, NSDictionary *info) {
+                                     
+                                     dispatch_async(dispatch_get_main_queue(), ^{
+                                         //you can add autorelease pool here as well (a2)
+                                         @autoreleasepool {
+                                             if (cell.tag == indexPath.row) {
+                                                 cell.imageView1.image = result;
+                                             }
+                                         }
+                                     });
+                                 }];
+        }
     }
     
     if (fetchResult.count == 0) {

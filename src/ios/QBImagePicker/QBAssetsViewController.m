@@ -262,17 +262,17 @@ static CGSize CGSizeScale(CGSize size, CGFloat scale) {
 
 - (BOOL)isMinimumSelectionLimitFulfilled
 {
-   return (self.imagePickerController.minimumNumberOfSelection <= self.imagePickerController.selectedAssets.count);
+    return (self.imagePickerController.minimumNumberOfSelection <= self.imagePickerController.selectedAssets.count);
 }
 
 - (BOOL)isMaximumSelectionLimitReached
 {
     NSUInteger minimumNumberOfSelection = MAX(1, self.imagePickerController.minimumNumberOfSelection);
-   
+    
     if (minimumNumberOfSelection <= self.imagePickerController.maximumNumberOfSelection) {
         return (self.imagePickerController.maximumNumberOfSelection <= self.imagePickerController.selectedAssets.count);
     }
-   
+    
     return NO;
 }
 
@@ -455,9 +455,14 @@ static CGSize CGSizeScale(CGSize size, CGFloat scale) {
                                 contentMode:PHImageContentModeAspectFill
                                     options:nil
                               resultHandler:^(UIImage *result, NSDictionary *info) {
-                                  if (cell.tag == indexPath.item) {
-                                      cell.imageView.image = result;
-                                  }
+                                  dispatch_async(dispatch_get_main_queue(), ^{
+                                      //you can add autorelease pool here as well (a2)
+                                      @autoreleasepool {
+                                          if (cell.tag == indexPath.item) {
+                                              cell.imageView.image = result;
+                                          }
+                                      }
+                                  });
                               }];
     
     // Video indicator
