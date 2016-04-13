@@ -85,32 +85,28 @@
         }
         
         void (^handler)(UIImage *image, NSDictionary *info) = ^void(UIImage *image, NSDictionary *info) {
-            dispatch_async(dispatch_get_main_queue(), ^{
-                //you can add autorelease pool here as well (a2)
-                @autoreleasepool {
-                    UIImage *rotatedImage = [self imageByRotatingImage:image];
-                    
-                    NSDictionary *options = @{
-                                              (__bridge id)kCGImageDestinationLossyCompressionQuality: @(self.quality / 100),
-                                              (__bridge id)kCGImageMetadataShouldExcludeGPS: @(YES),
-                                              };
-                    CGImageDestinationRef imageDestinationRef =
-                    CGImageDestinationCreateWithURL((__bridge CFURLRef)fileURL,
-                                                    kUTTypeJPEG,
-                                                    1,
-                                                    NULL);
-                    
-                    CGImageDestinationAddImage(imageDestinationRef, rotatedImage.CGImage, (__bridge CFDictionaryRef)options);
-                    if (CGImageDestinationFinalize(imageDestinationRef)) {
-                        [resultStrings addObject:[fileURL absoluteString]];
-                        if ([resultStrings count] == [assets count]) {
-                            CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsArray:resultStrings];
-                            [self didFinishImagesWithResult:pluginResult];
-                        }
-                    }
-                    CFRelease(imageDestinationRef);
+            UIImage *rotatedImage = [self imageByRotatingImage:image];
+            
+            NSDictionary *options = @{
+                                      (__bridge id)kCGImageDestinationLossyCompressionQuality: @(self.quality / 100),
+                                      (__bridge id)kCGImageMetadataShouldExcludeGPS: @(YES),
+                                      };
+            CGImageDestinationRef imageDestinationRef =
+            CGImageDestinationCreateWithURL((__bridge CFURLRef)fileURL,
+                                            kUTTypeJPEG,
+                                            1,
+                                            NULL);
+            
+            CGImageDestinationAddImage(imageDestinationRef, rotatedImage.CGImage, (__bridge CFDictionaryRef)options);
+            if (CGImageDestinationFinalize(imageDestinationRef)) {
+                [resultStrings addObject:[fileURL absoluteString]];
+                if ([resultStrings count] == [assets count]) {
+                    CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsArray:resultStrings];
+                    [self didFinishImagesWithResult:pluginResult];
                 }
-            });
+            }
+            CFRelease(imageDestinationRef);
+            
         };
         
         [manager requestImageForAsset:asset
